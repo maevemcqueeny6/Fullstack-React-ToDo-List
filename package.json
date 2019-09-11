@@ -1,0 +1,30 @@
+{
+  "name": "fullstack-react-todo-list",
+  "version": "1.0.0",
+  "description": "to do list built with the MERN stack ",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maevemcqueeny6/Fullstack-React-ToDo-List.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maevemcqueeny6/Fullstack-React-ToDo-List/issues"
+  },
+  "homepage": "https://github.com/maevemcqueeny6/Fullstack-React-ToDo-List#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.2",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.13",
+    "nodemon": "^1.19.2"
+  }
+}
