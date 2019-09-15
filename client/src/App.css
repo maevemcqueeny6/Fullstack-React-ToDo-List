@@ -1,9 +1,9 @@
-.remove-btn{
-  margin-right: .5rem;
+.remove-btn {
+  margin-right: 0.5rem;
 }
 
 .fade-enter {
- opacity: 0.01;
+  opacity: 0.01;
 }
 
 .fade-enter-active {

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group'; 
-import uuid from 'uuid';
 
 // CONNECT COMES FROM REACT REDUX AND ALLOWS US TO GET STATE FROM REDUX INTO A REACT COMPONENT 
 import { connect } from 'react-redux';
-import { getItems } from '../actions/itemActions';
+import { getItems, deleteItem } from '../actions/itemActions';
 import PropTypes from 'prop-types';
 
 class TodoList extends Component {
@@ -13,6 +12,11 @@ class TodoList extends Component {
     // this compoennt runs after the api request runs
     componentDidMount(){
         this.props.getItems();
+    }
+
+    onDeleteClick = (id) => {
+        this.props.deleteItem(id);
+        // access the function using prop types at the bottom, calling the ACTION delete item, which gets sent to the REDUCER ALONG WITH THE PAYLOAD and then the reducer filters the id of the deleted item 
     }
 
 
@@ -31,34 +35,19 @@ class TodoList extends Component {
 
         return(
             <Container>
-                <Button
-                    color="dark"
-                    style={{marginBottom: '2rem'}}
-                    onClick={() => {
-                        const name = prompt("Enter Item");
-                        if(name){
-                            this.setState(state => ({
-                                items: [...state.items, {id: uuid(), name: name}]
-                            }))
-                        }
-                    }}
-                >Add Item</Button>
 
                 <ListGroup>
                     <TransitionGroup className="todolist">
-                        {items.map(({ id, name })=> (
-                            <CSSTransition key={id} timeout={500} classNames="fade">
+                        {items.map(({ _id, name })=> (
+                            <CSSTransition key={_id} timeout={500} classNames="fade">
                                 <ListGroupItem>
                                     {/* Adding a delete buttom */}
                                     <Button
                                         className="remove-btn"
                                         color="danger"
                                         size="sm"
-                                        onClick={()=> {
-                                            this.setState(state => ({
-                                                items: state.items.filter(item => item.id !==id)
-                                            }));
-                                        }}
+                                        onClick={this.onDeleteClick.bind(this, _id)}
+                                        // to access the id of the item, we bind the id of this click event to the function using this
                                         >
                                             &times;
                                         </Button>
@@ -85,4 +74,4 @@ const mapStateToProps = (state) => ({
     item: state.item
 });
 
-export default connect(mapStateToProps, { getItems })(TodoList);
+export default connect(mapStateToProps, { getItems, deleteItem })(TodoList);
