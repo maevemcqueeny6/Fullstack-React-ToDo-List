@@ -3,5 +3,5 @@
 // }
 
 module.exports = {
-    mongoURI: 'mongodb+srv://maeve:LaLaLa#321@cluster0-jtjzu.mongodb.net/test?retryWrites=true&w=majority'
+    mongoURI: 'mongodb+srv://maeve:BETTYBOOP@cluster0-jtjzu.mongodb.net/test?retryWrites=true&w=majority'
 }
