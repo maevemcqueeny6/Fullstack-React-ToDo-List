@@ -1,5 +1,4 @@
 // a reducer is where our state is goign to go. where we check our actions from our actions file, which will dispatch to the reducer, and it can send along a payload if we want
-import uuid from 'uuid';
 import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from '../actions/types';
 
 const initialState = {
