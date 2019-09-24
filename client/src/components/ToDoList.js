@@ -46,7 +46,7 @@ class TodoList extends Component {
                         {items.map(({ _id, name })=> (
                             <CSSTransition key={_id} timeout={500} classNames="fade">
                                 <ListGroupItem>
-                                    { this.props.isAuthenticated ?  
+                                    { this.props.isAuthenticated ? ( 
                                     <Button
                                     className="remove-btn"
                                     color="danger"
@@ -55,7 +55,8 @@ class TodoList extends Component {
                                     // to access the id of the item, we bind the id of this click event to the function using this
                                     >
                                         &times;
-                                    </Button>
+                                    </Button> 
+                                    )
                                     :
                                     null
                                     }
