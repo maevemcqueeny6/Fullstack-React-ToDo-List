@@ -2,6 +2,8 @@
 
 import axios from 'axios';
 import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from './types';
+import { tokenConfig } from './authActions';
+import { returnErrors } from './errorActions';
 
 // GOES TO OUR ACTION REDUCER AND CHECKS THE SWITCH OPERATOR FOR THE ACTION.TYPE. TYPE FOR SWITHC OPERATOR  IN ITEMREDUCER FUNCTION
 export const getItems = () => dispatch => {
@@ -9,39 +11,41 @@ export const getItems = () => dispatch => {
     dispatch(setItemsLoading());
     axios
         .get('/api/items')
-        .then(res => 
+        .then(res =>
             dispatch({
                 // this is where we will send our type 
                 type: GET_ITEMS,
                 payload: res.data
                 // this payload will be the data from the backend, picking up the routes from routes/api/items in our file structure 
-            })
-            )
-        }
-
-    export const addItem = item => dispatch => {
-        axios
-            .post('api/items', item)
-            .then(res => dispatch({
-                type: ADD_ITEM,
-                payload: res.data
             }))
-    }
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
 
-    export const deleteItem = id => dispatch => {
-        axios
-            .delete(`/api/items/${id}`)
-            .then(res => dispatch({
-                type: DELETE_ITEM,
-                payload: id
-            }))
-    }
+export const addItem = item => (dispatch, getState) => {
+    axios
+        .post('api/items', item, tokenConfig(getState))
+        .then(res => dispatch({
+            type: ADD_ITEM,
+            payload: res.data
+        }))
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
+
+export const deleteItem = id => (dispatch, getState) => {
+    axios
+        .delete(`/api/items/${id}`, tokenConfig(getState))
+        .then(res => dispatch({
+            type: DELETE_ITEM,
+            payload: id
+        }))
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+}
 
 
 
-    // return {
-    //     type: GET_ITEMS
-    // }
+// return {
+//     type: GET_ITEMS
+// }
 
 
 // export const deleteItem = (id) => {

@@ -3,11 +3,15 @@
 
 import { combineReducers } from 'redux';
 import itemReducer from './itemReducer';
+import errorReducer from './errorReducer';
+import authReducer from './authReducer';
 
 // pass in an object with the different reducers 
 export default combineReducers({
     // how to identify it from within components when we want to use it 
-    item: itemReducer
+    item: itemReducer,
     // if you had an auth reducer it would be an auth reducer 
     // auth: authReducer
+    auth: authReducer,
+    error: errorReducer
 })

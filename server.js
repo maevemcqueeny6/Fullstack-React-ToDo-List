@@ -1,30 +1,43 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 // allows you to take requests and take info from the body, allows you to parse the requests
 const path = require('path');
-// allows you to deal with file paths 
+// allows you to deal with file paths
+
+const config = require('config');
+// config allows you to have secret keys
 
 
 const items = require('./routes/api/items');
 
+const users = require('./routes/api/users');
+
+const auth = require('./routes/api/auth');
+
+
 const app = express();
 
 // Bodyparser Middleware 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // DB Config
-const db = require('./config/keys').mongoURI; 
+const db = config.get('mongoURI'); 
 
 // Connect to Mongo
 mongoose
-    .connect(db)
+    .connect(db, {
+        useNewUrlParser: true,
+        useCreateIndex: true
+    })
     .then( () => console.log('MongoDB Connected... '))
     .catch(err => console.log(err));
 
 // User Routes 
 // anything that refers to this location (/api/items), should refer to this file items, which is defined above 
-app.use('/api/items', items)
+app.use('/api/items', items);
+app.use('/api/users', users);
+app.use('/api/auth', auth);
+
 
 // Serve static assets if in production 
 if(process.env.NODE_ENV === 'production'){

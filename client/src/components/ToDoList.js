@@ -8,6 +8,11 @@ import { getItems, deleteItem } from '../actions/itemActions';
 import PropTypes from 'prop-types';
 
 class TodoList extends Component {
+    static propTypes = {
+        getItems: PropTypes.func.isRequired,
+        item: PropTypes.object.isRequired,
+        isAuthenticated: PropTypes.bool
+    }
 
     // this compoennt runs after the api request runs
     componentDidMount(){
@@ -41,16 +46,21 @@ class TodoList extends Component {
                         {items.map(({ _id, name })=> (
                             <CSSTransition key={_id} timeout={500} classNames="fade">
                                 <ListGroupItem>
-                                    {/* Adding a delete buttom */}
+                                    { this.props.isAuthenticated ?  
                                     <Button
-                                        className="remove-btn"
-                                        color="danger"
-                                        size="sm"
-                                        onClick={this.onDeleteClick.bind(this, _id)}
-                                        // to access the id of the item, we bind the id of this click event to the function using this
-                                        >
-                                            &times;
-                                        </Button>
+                                    className="remove-btn"
+                                    color="danger"
+                                    size="sm"
+                                    onClick={this.onDeleteClick.bind(this, _id)}
+                                    // to access the id of the item, we bind the id of this click event to the function using this
+                                    >
+                                        &times;
+                                    </Button>
+                                    :
+                                    null
+                                    }
+
+                                    
                                     {name}
                                 </ListGroupItem>
                             </CSSTransition>
@@ -64,14 +74,12 @@ class TodoList extends Component {
 
 }
 
-TodoList.propTypes = {
-    getItems: PropTypes.func.isRequired,
-    item: PropTypes.object.isRequired
-}
+
 
 const mapStateToProps = (state) => ({
     // we use item because thats what we called the reducer in the root reducer.
-    item: state.item
+    item: state.item,
+    isAuthenticated: state.isAuthenticated
 });
 
 export default connect(mapStateToProps, { getItems, deleteItem })(TodoList);
